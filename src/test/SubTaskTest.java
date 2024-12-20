@@ -19,7 +19,7 @@ class SubTaskTest {
     }
 
     @Test
-    void noEquals() {
+    void noEqualsObj() {
         SubTask subTask = new SubTask("SubTask1", "Description1");
         SubTask subTask2 = new SubTask("SubTask2", "Description2");
         assertNotEquals(subTask2, subTask);
