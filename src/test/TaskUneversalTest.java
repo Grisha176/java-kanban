@@ -1,6 +1,6 @@
 package test;
 
-import taskManager.TaskUneversal;
+import taskmanager.TaskUneversal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

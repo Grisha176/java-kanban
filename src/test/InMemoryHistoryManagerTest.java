@@ -1,8 +1,8 @@
 package test;
 
-import taskManager.manager.InMemoryHistoryManager;
-import taskManager.Task;
-import taskManager.TaskUneversal;
+import taskmanager.manager.InMemoryHistoryManager;
+import taskmanager.Task;
+import taskmanager.TaskUneversal;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

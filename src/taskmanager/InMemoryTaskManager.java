@@ -1,8 +1,8 @@
-package taskManager;
+package taskmanager;
 
-import taskManager.manager.HistoryManager;
-import taskManager.manager.Managers;
-import taskManager.manager.TaskManager1;
+import taskmanager.manager.HistoryManager;
+import taskmanager.manager.Managers;
+import taskmanager.manager.TaskManager1;
 
 import java.util.ArrayList;
 import java.util.HashMap;

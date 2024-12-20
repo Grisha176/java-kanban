@@ -1,9 +1,9 @@
 package test;
 
 
-import taskManager.Epic;
-import taskManager.manager.InMemoryHistoryManager;
-import taskManager.manager.Managers;
+import taskmanager.Epic;
+import taskmanager.manager.InMemoryHistoryManager;
+import taskmanager.manager.Managers;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
