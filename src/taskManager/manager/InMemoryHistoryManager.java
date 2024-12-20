@@ -1,6 +1,6 @@
-package TaskManager.Manager;
+package taskManager.manager;
 
-import TaskManager.Task;
+import taskManager.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

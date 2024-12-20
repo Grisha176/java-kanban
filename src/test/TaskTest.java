@@ -1,8 +1,8 @@
 package test;
 
-import TaskManager.InMemoryTaskManager;
-import TaskManager.Task;
-import TaskManager.TaskUneversal;
+import taskManager.InMemoryTaskManager;
+import taskManager.Task;
+import taskManager.TaskUneversal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

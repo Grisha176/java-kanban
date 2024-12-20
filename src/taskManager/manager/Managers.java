@@ -1,6 +1,6 @@
-package TaskManager.Manager;
+package taskManager.manager;
 
-import TaskManager.InMemoryTaskManager;
+import taskManager.InMemoryTaskManager;
 
 public class Managers {
 

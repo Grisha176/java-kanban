@@ -1,10 +1,10 @@
 package test;
 
-import TaskManager.Epic;
-import TaskManager.InMemoryTaskManager;
-import TaskManager.SubTask;
-import TaskManager.Task;
-import TaskManager.TaskUneversal;
+import taskManager.Epic;
+import taskManager.InMemoryTaskManager;
+import taskManager.SubTask;
+import taskManager.Task;
+import taskManager.TaskUneversal;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
