@@ -99,7 +99,7 @@ public class InMemoryTaskManager implements TaskManager1 {
     public void deleteEpics(int id) {
         final Epic epic = epics.remove(id);
         if (null == epic.getSubtaskIds()) {
-
+             System.out.println("пустой эпик");
         } else {
             for (Integer subtaskId : epic.getSubtaskIds()) {
                 subtask.remove((subtaskId));
