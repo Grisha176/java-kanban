@@ -1,4 +1,4 @@
-package TaskManager;
+package taskmanager;
 
 public class TaskUneversal extends Task {
     private int id;

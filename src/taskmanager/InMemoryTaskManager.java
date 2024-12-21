@@ -1,8 +1,8 @@
-package TaskManager;
+package taskmanager;
 
-import TaskManager.Manager.HistoryManager;
-import TaskManager.Manager.Managers;
-import TaskManager.Manager.TaskManager1;
+import taskmanager.manager.HistoryManager;
+import taskmanager.manager.Managers;
+import taskmanager.manager.TaskManager1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +99,7 @@ public class InMemoryTaskManager implements TaskManager1 {
     public void deleteEpics(int id) {
         final Epic epic = epics.remove(id);
         if (null == epic.getSubtaskIds()) {
-
+             System.out.println("пустой эпик");
         } else {
             for (Integer subtaskId : epic.getSubtaskIds()) {
                 subtask.remove((subtaskId));

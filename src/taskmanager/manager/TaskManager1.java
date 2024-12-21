@@ -1,9 +1,9 @@
-package TaskManager.Manager;
+package taskmanager.manager;
 
-import TaskManager.Epic;
-import TaskManager.SubTask;
-import TaskManager.Task;
-import TaskManager.TaskUneversal;
+import taskmanager.Epic;
+import taskmanager.SubTask;
+import taskmanager.Task;
+import taskmanager.TaskUneversal;
 
 import java.util.ArrayList;
 
