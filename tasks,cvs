@@ -1,0 +1,4 @@
+Задача {name='name', description='descr', progress='NEW}
+Epic{name='name', description='descr', progress=NEW}
+Задача {name='name', description='descr', progress='NEW}
+Epic{name='name', description='descr', progress=NEW}
