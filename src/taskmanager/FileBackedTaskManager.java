@@ -37,8 +37,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     }
                 }
             }
-        } catch ( IOException e) {
-            throw new ManagerSaveException("Ошибка: "+e.getMessage());
+        } catch (IOException e) {
+            throw new ManagerSaveException("Ошибка: " + e.getMessage());
         }
         return manager;
     }
@@ -49,7 +49,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                throw new ManagerSaveException("Ошибка: "+e.getMessage());
+                throw new ManagerSaveException("Ошибка: " + e.getMessage());
             }
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
@@ -59,7 +59,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             String line = toStrings(allTasks.get(allTasks.size() - 1));
             writer.append(line).append('\n');
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка: "+e.getMessage());
+            throw new ManagerSaveException("Ошибка: " + e.getMessage());
         }
 
     }
