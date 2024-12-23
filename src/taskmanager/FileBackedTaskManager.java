@@ -1,10 +1,14 @@
 package taskmanager;
 
+import taskmanager.exceptions.ManagerSaveException;
+import taskmanager.manager.HistoryManager;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    static final String FAILNAME = "tasks,cvs";
+    private static final String FAILNAME = "tasks,cvs";
 
     public static InMemoryTaskManager loadFile(File file) {
         InMemoryTaskManager manager = new InMemoryTaskManager();
@@ -33,20 +37,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     }
                 }
             }
-        } catch (FileNotFoundException | NumberFormatException e) {
-            e.printStackTrace();
+        } catch ( IOException e) {
+            throw new ManagerSaveException("Ошибка: "+e.getMessage());
         }
         return manager;
     }
 
     private void save() {
         File file = new File(FAILNAME);
-        InMemoryTaskManager inMemoryTaskManager = FileBackedTaskManager.loadFile(file);
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new ManagerSaveException("Ошибка: "+e.getMessage());
             }
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
@@ -56,7 +59,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             String line = toStrings(allTasks.get(allTasks.size() - 1));
             writer.append(line).append('\n');
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ManagerSaveException("Ошибка: "+e.getMessage());
         }
 
     }
@@ -70,6 +73,86 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.addSubTask(subTask);
         save();
         return subTask.getId();
+    }
+
+    @Override
+    public void deleteSubTask(int id) {
+        super.deleteSubTask(id);
+    }
+
+    @Override
+    public void deleteEpics(int id) {
+        super.deleteEpics(id);
+    }
+
+    @Override
+    public void deleteTask(int id) {
+        super.deleteTask(id);
+    }
+
+    @Override
+    public void deleteAllTask() {
+        super.deleteAllTask();
+    }
+
+    @Override
+    public void deleteAllEpic() {
+        super.deleteAllEpic();
+    }
+
+    @Override
+    public void deleteAllSubTask() {
+        super.deleteAllSubTask();
+    }
+
+    @Override
+    public void updateEpicStatus(int id, Epic epic) {
+        super.updateEpicStatus(id, epic);
+    }
+
+    @Override
+    public void updateTask(int id, TaskUneversal taskUneversal) {
+        super.updateTask(id, taskUneversal);
+    }
+
+    @Override
+    public void updateSubTask(int id, SubTask subTask) {
+        super.updateSubTask(id, subTask);
+    }
+
+    @Override
+    public Task getTask(int id) {
+        return super.getTask(id);
+    }
+
+    @Override
+    public Epic getEpic(int id) {
+        return super.getEpic(id);
+    }
+
+    @Override
+    public SubTask getSubTask(int id) {
+        return super.getSubTask(id);
+    }
+
+    @Override
+    public HistoryManager getHistory() {
+        return super.getHistory();
+    }
+
+    @Override
+    public ArrayList<Task> getTasks() {
+        return super.getTasks();
+    }
+
+    @Override
+    public ArrayList<SubTask> getSubtasks() {
+        return super.getSubtasks();
+    }
+
+    @Override
+    public ArrayList<Epic> getEpics() {
+        return super.getEpics();
     }
 
     @Override
