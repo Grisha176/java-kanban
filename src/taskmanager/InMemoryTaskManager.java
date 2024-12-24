@@ -6,12 +6,14 @@ import taskmanager.manager.TaskManager1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager1 {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private final HashMap<Integer, SubTask> subtask = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
+    public final List<Task> allTasks = new ArrayList<>();
 
     @Override
     public Task getTask(int id) {
@@ -61,6 +63,7 @@ public class InMemoryTaskManager implements TaskManager1 {
     public int addTask(Task task) {
         task.id = Task.count++;
         tasks.put(task.id, task);
+        allTasks.add(task);
         return task.id;
     }
 
@@ -68,8 +71,9 @@ public class InMemoryTaskManager implements TaskManager1 {
     public int addEpic(Epic epic) {
         epic.id = Task.count++;
         epics.put(epic.id, epic);
+        allTasks.add(epic);
         return epic.id;
-        //historyManager.addHistory();
+
     }
 
     @Override
@@ -78,6 +82,7 @@ public class InMemoryTaskManager implements TaskManager1 {
         subtask.put(subTasks.id, subTasks);
         Epic ep = epics.get(subTasks.idEpic);
         ep.subtaskIds.add(subTasks.id);
+        allTasks.add(subTasks);
         return subTasks.id;
     }
 
@@ -99,7 +104,7 @@ public class InMemoryTaskManager implements TaskManager1 {
     public void deleteEpics(int id) {
         final Epic epic = epics.remove(id);
         if (null == epic.getSubtaskIds()) {
-             System.out.println("пустой эпик");
+            System.out.println("пустой эпик");
         } else {
             for (Integer subtaskId : epic.getSubtaskIds()) {
                 subtask.remove((subtaskId));
