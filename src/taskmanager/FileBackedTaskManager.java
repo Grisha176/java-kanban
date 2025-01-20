@@ -4,6 +4,8 @@ import taskmanager.exceptions.ManagerSaveException;
 import taskmanager.manager.HistoryManager;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,20 +21,31 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] mass = line.split(",");
-                if (mass.length == 6) {
+                if (mass.length == 8) {
                     int id = Integer.parseInt(mass[0]);
                     String type = mass[1];
                     String name = mass[2];
                     String descr = mass[4];
+                    int epicId = Integer.parseInt(mass[5]);
                     switch (type) {
                         case "TASK":
-                            manager.addTask(new TaskUneversal(name, descr));
+                            Duration duration = Duration.parse(mass[6]);
+                            LocalDateTime ldt = LocalDateTime.parse(mass[7]);
+                            manager.addTask(new TaskUneversal(name, descr, duration, ldt));
                             break;
                         case "EPIC":
                             manager.addEpic(new Epic(name, descr));
                             break;
                         case "SUBTASK":
-                            manager.addSubTask(new SubTask(name, descr));
+                            Duration duration1 = Duration.parse(mass[6]);
+                            LocalDateTime ldt2 = LocalDateTime.parse(mass[7]);
+                            Epic epic1 = manager.getEpic(epicId);
+                            if (epic1 != null) {
+                                manager.addSubTask(new SubTask(name, descr, duration1, ldt2, epicId));
+                            } else {
+                                System.out.println("Эпик с ID " + epicId + " не найден.");
+                            }
+
                             break;
                     }
                 }
@@ -43,7 +56,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return manager;
     }
 
-    private void save() {
+    public void save() {
         File file = new File(FAILNAME);
         if (!file.exists()) {
             try {
@@ -54,10 +67,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             if (!file.exists()) {
-                writer.append("id,type,name,status,description,epic").append("\n");
+                writer.append("id,type,name,status,description,epic,duration,localDateTime").append("\n");
             }
-            String line = toStrings(allTasks.get(allTasks.size() - 1));
-            writer.append(line).append('\n');
+            if (!allTasks.isEmpty()) {
+                String line = toStrings(allTasks.getLast());
+                writer.append(line).append('\n');
+            }
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка: " + e.getMessage());
         }

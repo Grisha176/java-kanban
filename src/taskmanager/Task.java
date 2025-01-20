@@ -1,5 +1,7 @@
 package taskmanager;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -9,6 +11,16 @@ public class Task {
     protected String description;
     protected Progress progress;
     public static Integer count = 1;
+    protected Duration duration;
+    protected LocalDateTime startTime;
+
+    public LocalDateTime getEndTime() {
+        return startTime.plus(duration);
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
 
     @Override
     public boolean equals(Object obj) {

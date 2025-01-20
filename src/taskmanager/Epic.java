@@ -1,18 +1,27 @@
 package taskmanager;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
 
     protected static ArrayList<Integer> subtaskIds = new ArrayList<>();
+    InMemoryTaskManager manager = new InMemoryTaskManager();
 
     public Epic(String name, String description) {
-
         this.name = name;
         this.description = description;
         this.id = Task.count;
         Task.count++;
         this.progress = Progress.NEW;
+        this.startTime = manager.getSubTaskSortByTime().getFirst();
+        this.duration = Duration.between(this.startTime, getEndTime());
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return manager.getSubTaskSortByTime().get(subtaskIds.size());
     }
 
     public int getId() {
