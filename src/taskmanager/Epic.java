@@ -21,7 +21,7 @@ public class Epic extends Task {
 
     @Override
     public LocalDateTime getEndTime() {
-        return manager.getSubTaskSortByTime().get(manager.getSubTaskSortByTime().size()-1);
+        return manager.getSubTaskSortByTime().get(manager.getSubTaskSortByTime().size() - 1);
     }
 
     public int getId() {
