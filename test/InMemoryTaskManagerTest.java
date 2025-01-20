@@ -11,12 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
 
-    InMemoryTaskManager taskManager = new InMemoryTaskManager();
-    Epic epic = new Epic("убрать квартиру", "убрать кухню");
+
 
     @Test
     void addTask() {
-
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
         TaskUneversal task = new TaskUneversal("убрать квартиру", "убрать кухню", Duration.ofMinutes(90), LocalDateTime.now().plusHours(1));
         int taskId = taskManager.addTask(task);
         Task id = taskManager.getTask(taskId);
@@ -31,7 +30,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addEpic() {
-
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        Epic epic = new Epic("убрать квартиру", "убрать кухню");
 
         int epicId = taskManager.addEpic(epic);
         Epic id = taskManager.getEpic(epicId);
@@ -46,6 +46,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addSub() {
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        Epic epic = new Epic("убрать квартиру", "убрать кухню");
         taskManager.addEpic(epic);
         SubTask subTask = new SubTask("убрать квартиру", "убрать кухню", Duration.ofMinutes(54), LocalDateTime.now(), epic.getId());
         int subtaskId = taskManager.addSubTask(subTask);
@@ -61,6 +63,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addInManager() {
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+
         TaskUneversal task = new TaskUneversal("task1", "description1", Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(30));
         int taskId = taskManager.addTask(task);
         Task task2 = taskManager.getTask(taskId);
@@ -72,6 +76,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void testCheckTimeOverlapsTrue() {
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+
         TaskUneversal task = new TaskUneversal("task", "descriprion1", Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(30));
         TaskUneversal task2 = new TaskUneversal("task2", "descriprion2", Duration.ofMinutes(10), LocalDateTime.now().plusMinutes(50));
         assertTrue(taskManager.checkTimeOverlaps(task, task2));
@@ -79,6 +85,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void testCheckTimeOverlapsFalse() {
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+
         TaskUneversal task = new TaskUneversal("task", "descriprion1", Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(30));
         TaskUneversal task2 = new TaskUneversal("task2", "descriprion2", Duration.ofMinutes(10), LocalDateTime.now().plusHours(2));
         assertFalse(taskManager.checkTimeOverlaps(task, task2));

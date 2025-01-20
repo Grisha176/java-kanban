@@ -205,7 +205,7 @@ public class InMemoryTaskManager implements TaskManager1 {
         int doneSubtasks = 0;
         for (int subtaskId : foundEpic.getSubtaskIds()) {
             SubTask subTask = subtask.get(subtaskId);
-            if (subTask.getStatus() == Progress.DONE) {
+            if (subTask != null && subTask.getStatus() == Progress.DONE) {
                 doneSubtasks++;
             } else if (doneSubtasks == 0) {
                 foundEpic.setProgress(Progress.NEW);
