@@ -1,28 +1,30 @@
 package test;
 
-import taskmanager.Epic;
-import taskmanager.InMemoryTaskManager;
-import taskmanager.SubTask;
-import taskmanager.Task;
-import taskmanager.TaskUneversal;
 import org.junit.jupiter.api.Test;
+import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.model.Epic;
+import taskmanager.model.SubTask;
+import taskmanager.model.Task;
+import taskmanager.model.TaskUneversal;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
 
-    InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
     @Test
     void addTask() {
-
-        TaskUneversal task = new TaskUneversal("убрать квартиру", "убрать кухню");
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        TaskUneversal task = new TaskUneversal("убрать квартиру", "убрать кухню", Duration.ofMinutes(90), LocalDateTime.now().plusHours(1));
         int taskId = taskManager.addTask(task);
         Task id = taskManager.getTask(taskId);
         assertNotNull(id, "Задачи нету");
         assertEquals(task, id, "Задачи не совпадают");
+
 
         ArrayList<Task> tasks = taskManager.getTasks();
         assertNotNull(tasks, "Задачи не возвращены");
@@ -32,8 +34,9 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addEpic() {
-
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
         Epic epic = new Epic("убрать квартиру", "убрать кухню");
+
         int epicId = taskManager.addEpic(epic);
         Epic id = taskManager.getEpic(epicId);
         assertNotNull(id, "Задачи нету");
@@ -47,8 +50,10 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addSub() {
-
-        SubTask subTask = new SubTask("убрать квартиру", "убрать кухню");
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        Epic epic = new Epic("убрать квартиру", "убрать кухню");
+        taskManager.addEpic(epic);
+        SubTask subTask = new SubTask("убрать квартиру", "убрать кухню", Duration.ofMinutes(54), LocalDateTime.now(), epic.getId());
         int subtaskId = taskManager.addSubTask(subTask);
         SubTask id = taskManager.getSubTask(subtaskId);
         assertNotNull(id, "Задачи нету");
@@ -62,13 +67,33 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addInManager() {
-        TaskUneversal task = new TaskUneversal("task1", "description1");
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+
+        TaskUneversal task = new TaskUneversal("task1", "description1", Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(30));
         int taskId = taskManager.addTask(task);
         Task task2 = taskManager.getTask(taskId);
         assertEquals(task.getName(), task2.getName());
         assertEquals(task.getDescription(), task2.getDescription());
         assertEquals(task.getStatus(), task2.getStatus());
 
+    }
+
+    @Test
+    void testCheckTimeOverlapsTrue() {
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+
+        TaskUneversal task = new TaskUneversal("task", "descriprion1", Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(30));
+        TaskUneversal task2 = new TaskUneversal("task2", "descriprion2", Duration.ofMinutes(10), LocalDateTime.now().plusMinutes(50));
+        assertTrue(taskManager.checkTimeOverlaps(task, task2));
+    }
+
+    @Test
+    void testCheckTimeOverlapsFalse() {
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+
+        TaskUneversal task = new TaskUneversal("task", "descriprion1", Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(30));
+        TaskUneversal task2 = new TaskUneversal("task2", "descriprion2", Duration.ofMinutes(10), LocalDateTime.now().plusHours(2));
+        assertFalse(taskManager.checkTimeOverlaps(task, task2));
     }
 
 }

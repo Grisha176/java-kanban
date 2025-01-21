@@ -1,7 +1,7 @@
 package test;
 
 
-import taskmanager.Epic;
+import taskmanager.model.Epic;
 import taskmanager.manager.InMemoryHistoryManager;
 import taskmanager.manager.Managers;
 import org.junit.jupiter.api.Test;

@@ -1,19 +1,53 @@
-package taskmanager;
+package taskmanager.model;
 
+import taskmanager.manager.InMemoryTaskManager;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
 
     protected static ArrayList<Integer> subtaskIds = new ArrayList<>();
+    InMemoryTaskManager manager = new InMemoryTaskManager();
 
     public Epic(String name, String description) {
-
         this.name = name;
         this.description = description;
         this.id = Task.count;
         Task.count++;
         this.progress = Progress.NEW;
+        this.startTime = getStartTime();
+        this.duration = getDuration();
     }
+
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return manager.getSubtasks().stream()
+                .map(SubTask::getEndTime)
+                .max(LocalDateTime::compareTo)
+                .orElse(LocalDateTime.now());
+    }
+
+    @Override
+    public LocalDateTime getStartTime() {
+        return manager.getSubtasks().stream()
+                .map(SubTask::getStartTime)
+                .min(LocalDateTime::compareTo)
+                .orElse(LocalDateTime.now());
+    }
+
+    private Duration getDuration() {
+        return manager.getSubtasks().stream()
+                .map(SubTask::getDuration)
+                .reduce(Duration.ZERO, Duration::plus);
+    }
+
+   /* @Override
+    public LocalDateTime getEndTime() {
+        return manager.getSubTaskSortByTime().get(manager.getSubTaskSortByTime().size() - 1);
+    }*/
 
     public int getId() {
         return id;
