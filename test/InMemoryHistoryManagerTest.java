@@ -1,8 +1,8 @@
 
 
 import taskmanager.manager.InMemoryHistoryManager;
-import taskmanager.Task;
-import taskmanager.TaskUneversal;
+import taskmanager.model.Task;
+import taskmanager.model.TaskUneversal;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

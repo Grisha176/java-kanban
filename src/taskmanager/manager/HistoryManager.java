@@ -1,6 +1,6 @@
 package taskmanager.manager;
 
-import taskmanager.Task;
+import taskmanager.model.Task;
 
 import java.util.List;
 

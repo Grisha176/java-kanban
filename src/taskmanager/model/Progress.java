@@ -1,4 +1,4 @@
-package taskmanager;
+package taskmanager.model;
 
 public enum Progress {
     NEW,

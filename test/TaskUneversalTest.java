@@ -1,6 +1,6 @@
 
 
-import taskmanager.TaskUneversal;
+import taskmanager.model.TaskUneversal;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

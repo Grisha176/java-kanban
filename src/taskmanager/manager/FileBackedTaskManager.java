@@ -1,7 +1,10 @@
-package taskmanager;
+package taskmanager.manager;
 
 import taskmanager.exceptions.ManagerSaveException;
-import taskmanager.manager.HistoryManager;
+import taskmanager.model.Epic;
+import taskmanager.model.SubTask;
+import taskmanager.model.Task;
+import taskmanager.model.TaskUneversal;
 
 import java.io.*;
 import java.time.Duration;

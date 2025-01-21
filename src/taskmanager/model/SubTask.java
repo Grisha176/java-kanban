@@ -1,4 +1,4 @@
-package taskmanager;
+package taskmanager.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -51,7 +51,7 @@ public class SubTask extends Task {
     }
 
 
-    void setName(SubTask subTask) {
+    public void setName(SubTask subTask) {
         this.name = subTask.name;
         this.description = subTask.description;
     }

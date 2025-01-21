@@ -1,8 +1,8 @@
 package test;
 
-import taskmanager.InMemoryTaskManager;
-import taskmanager.Task;
-import taskmanager.TaskUneversal;
+import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.model.Task;
+import taskmanager.model.TaskUneversal;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

@@ -1,7 +1,11 @@
 package test;
 
-import taskmanager.*;
 import org.junit.jupiter.api.Test;
+import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.model.Epic;
+import taskmanager.model.SubTask;
+import taskmanager.model.Task;
+import taskmanager.model.TaskUneversal;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -12,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest {
 
 
-
     @Test
     void addTask() {
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
@@ -21,6 +24,7 @@ class InMemoryTaskManagerTest {
         Task id = taskManager.getTask(taskId);
         assertNotNull(id, "Задачи нету");
         assertEquals(task, id, "Задачи не совпадают");
+
 
         ArrayList<Task> tasks = taskManager.getTasks();
         assertNotNull(tasks, "Задачи не возвращены");

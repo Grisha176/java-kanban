@@ -1,4 +1,4 @@
-package taskmanager;
+package taskmanager.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class TaskUneversal extends Task {
         return id;
     }
 
-    void setName(TaskUneversal taskUneversal) {
+    public void setName(TaskUneversal taskUneversal) {
         this.name = taskUneversal.name;
         this.description = taskUneversal.description;
     }

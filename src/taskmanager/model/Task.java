@@ -1,4 +1,4 @@
-package taskmanager;
+package taskmanager.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -49,6 +49,9 @@ public class Task {
         this.progress = progress;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @Override
     public int hashCode() {

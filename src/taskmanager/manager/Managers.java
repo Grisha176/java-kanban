@@ -1,7 +1,5 @@
 package taskmanager.manager;
 
-import taskmanager.InMemoryTaskManager;
-
 public class Managers {
 
     public static TaskManager1 getDefault() {

@@ -1,10 +1,7 @@
-package taskmanager;
+package taskmanager.manager;
 
-import taskmanager.manager.HistoryManager;
-import taskmanager.manager.Managers;
-import taskmanager.manager.TaskManager1;
+import taskmanager.model.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager1 {
@@ -13,33 +10,19 @@ public class InMemoryTaskManager implements TaskManager1 {
     private final HashMap<Integer, SubTask> subtask = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     public final List<Task> allTasks = new ArrayList<>();
+    private final List<Task> prioritizedTasks = new ArrayList<>();
 
     public List<Task> getPrioritizedTasks() {
-        List<Task> sortedByTime = new ArrayList<>(allTasks);
-        sortedByTime.sort(Comparator.comparing(Task::getStartTime));
-        return sortedByTime;
+        prioritizedTasks.clear();
+        prioritizedTasks.addAll(tasks.values());
+        prioritizedTasks.addAll(subtask.values());
+        return prioritizedTasks;
 
     }
 
     public boolean checkTimeOverlaps(Task existing, Task newTask) {
-        return !(existing.getStartTime().isBefore(newTask.getStartTime()) && existing.getEndTime().isBefore(newTask.startTime));
+        return !(existing.getStartTime().isBefore(newTask.getStartTime()) && existing.getEndTime().isBefore(newTask.getStartTime()) && !newTask.getStartTime().isBefore(existing.getStartTime()));
     }
-
-
-    public List<LocalDateTime> getSubTaskSortByTime() {
-        List<LocalDateTime> lcd = new ArrayList<>();
-        subtask.values().stream()
-                .map(SubTask::getStartTime)
-                .forEach(lcd::add);
-        if (!lcd.isEmpty()) {
-            Collections.sort(lcd);
-            return lcd;
-        }
-        return List.of(LocalDateTime.now());
-
-
-    }
-
 
     @Override
     public Task getTask(int id) {
@@ -92,10 +75,10 @@ public class InMemoryTaskManager implements TaskManager1 {
         if (hasOverlap) {
             throw new IllegalArgumentException("Задача пересекается с другой задачей в списке");
         }
-        task.id = Task.count++;
-        tasks.put(task.id, task);
+        task.setId(Task.count++);
+        tasks.put(task.getId(), task);
         allTasks.add(task);
-        return task.id;
+        return task.getId();
 
 
     }
@@ -109,10 +92,10 @@ public class InMemoryTaskManager implements TaskManager1 {
             throw new IllegalArgumentException("Задача пересекается с другой задачей в списке");
         }
 
-        epic.id = Task.count++;
-        epics.put(epic.id, epic);
+        epic.setId(Task.count++);
+        epics.put(epic.getId(), epic);
         allTasks.add(epic);
-        return epic.id;
+        return epic.getId();
 
     }
 
@@ -125,14 +108,14 @@ public class InMemoryTaskManager implements TaskManager1 {
             throw new IllegalArgumentException("Задача пересекается с другой задачей в списке");
         }
 
-        subTasks.id = Task.count++;
-        subtask.put(subTasks.id, subTasks);
-        Epic ep = epics.get(subTasks.idEpic);
+        subTasks.setId(Task.count++);
+        subtask.put(subTasks.getId(), subTasks);
+        Epic ep = epics.get(subTasks.getEpicId());
         System.out.println(ep);
-        ep.subtaskIds.add(subTasks.id);
+        ep.getSubtaskIds().add(subTasks.getId());
         updateEpicStatus(ep.getId(), ep);
         allTasks.add(subTasks);
-        return subTasks.id;
+        return subTasks.getId();
     }
 
     @Override

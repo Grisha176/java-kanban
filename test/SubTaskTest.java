@@ -1,9 +1,9 @@
 package test;
 
 import org.junit.jupiter.api.BeforeEach;
-import taskmanager.Epic;
-import taskmanager.InMemoryTaskManager;
-import taskmanager.SubTask;
+import taskmanager.model.Epic;
+import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.model.SubTask;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -14,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SubTaskTest {
     Epic epic1;
+
     @BeforeEach
-    void setUp(){
-        epic1  = new Epic("Epic1", "Description1");
+    void setUp() {
+        epic1 = new Epic("Epic1", "Description1");
     }
+
     @Test
     void equals() {
         SubTask subTask = new SubTask("SubTask1", "Description1", ofMinutes(90), LocalDateTime.now().plusHours(1), epic1.getId());

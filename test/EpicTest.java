@@ -1,7 +1,7 @@
-import taskmanager.Epic;
-import taskmanager.InMemoryTaskManager;
-import taskmanager.Progress;
-import taskmanager.SubTask;
+import taskmanager.model.Epic;
+import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.model.Progress;
+import taskmanager.model.SubTask;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
