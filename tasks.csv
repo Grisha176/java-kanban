@@ -5,3 +5,7 @@ id,type,name,status,description,duration,localDateTime,epic
 2,EPIC,Задача1,NEW,Описание  задачи,0,2025-02-06T12:42:18.551155800
 3,EPIC,Задача1,NEW,Описание  задачи,0,2025-02-06T12:43
 4,EPIC,Задача1,NEW,Описание  задачи,0,2025-02-06T12:48
+3,EPIC,name,NEW,description,0,2025-02-06T13:07
+3,EPIC,name,NEW,description,0,2025-02-06T13:07
+2,EPIC,name,NEW,description,0,2025-02-06T13:08
+2,EPIC,name,NEW,description,0,2025-02-06T13:08
