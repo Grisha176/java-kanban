@@ -11,8 +11,9 @@ public class InMemoryTaskManager implements TaskManager1 {
     private final HashMap<Integer, SubTask> subtask = new HashMap<>();
     public final List<Task> allTasks = new ArrayList<>();
     private final List<Task> prioritizedTasks = new ArrayList<>();
-    private final static HistoryManager historyManager = new InMemoryHistoryManager();
-    public HistoryManager getHistoryManager(){
+    private static final HistoryManager historyManager = new InMemoryHistoryManager();
+
+    public HistoryManager getHistoryManager() {
         return historyManager;
     }
 
@@ -32,7 +33,7 @@ public class InMemoryTaskManager implements TaskManager1 {
     }
 
     @Override
-    public List<SubTask> getEpicsSubtask(int id){
+    public List<SubTask> getEpicsSubtask(int id) {
         Epic epic = epics.get(id);
         List<Integer> subtaskIds = epic.getSubtaskIds();
         List<SubTask> subTasks = subtaskIds.stream()
