@@ -2,6 +2,7 @@ package taskmanager.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -72,15 +73,26 @@ public class Task {
         return hash;
     }
 
-    @Override
-    public String toString() {
-        return "Задача {" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", progress='" + progress + '}';
-    }
-
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", description='" + description + '\'' +
+                ", progress=" + progress +
+                ", durationInMinutes= " + duration.toMinutes() +
+                ", startTime=" + startTime.format(DateTimeFormatter.ofPattern(" yyyy-MM-dd HH:mm")) +
+                '}';
+    }
+    public String toStrings(){
+        return "";
+    }
+
+    public Duration getDuration() {
+        return duration;
     }
 }

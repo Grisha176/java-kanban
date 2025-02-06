@@ -10,13 +10,14 @@ import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private static final String FAILNAME = "tasks,cvs";
+    private static final String FAILNAME = "tasks.csv";
 
-    public static InMemoryTaskManager loadFile(File file) {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+    public void loadFile(File file) {
+
         try (Scanner scanner = new Scanner(file)) {
             if (scanner.hasNextLine()) {
                 scanner.nextLine();
@@ -24,27 +25,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] mass = line.split(",");
-                if (mass.length == 8) {
+                if(mass.length == 7 || mass.length == 8){
                     int id = Integer.parseInt(mass[0]);
                     String type = mass[1];
                     String name = mass[2];
-                    String descr = mass[4];
-                    int epicId = Integer.parseInt(mass[5]);
+                    String status = mass[3];
+                    String description = mass[4];
+
                     switch (type) {
                         case "TASK":
-                            Duration duration = Duration.parse(mass[6]);
-                            LocalDateTime ldt = LocalDateTime.parse(mass[7]);
-                            manager.addTask(new TaskUneversal(name, descr, duration, ldt));
+                            Duration duration = Duration.parse(mass[5]);
+                            LocalDateTime ldt = LocalDateTime.parse(mass[6]);
+                            super.addTask(new TaskUneversal(name, description, duration, ldt));
                             break;
                         case "EPIC":
-                            manager.addEpic(new Epic(name, descr));
+                            super.addEpic(new Epic(name, description));
                             break;
                         case "SUBTASK":
-                            Duration duration1 = Duration.parse(mass[6]);
-                            LocalDateTime ldt2 = LocalDateTime.parse(mass[7]);
-                            Epic epic1 = manager.getEpic(epicId);
+                            int epicId = Integer.parseInt(mass[8]);
+                            Duration duration1 = Duration.parse(mass[5]);
+                            LocalDateTime ldt2 = LocalDateTime.parse(mass[6]);
+                            Epic epic1 = this.getEpic(epicId);
                             if (epic1 != null) {
-                                manager.addSubTask(new SubTask(name, descr, duration1, ldt2, epicId));
+                                super.addSubTask(new SubTask(name, description, duration1, ldt2, epicId));
                             } else {
                                 System.out.println("Эпик с ID " + epicId + " не найден.");
                             }
@@ -55,8 +58,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка: " + e.getMessage());
+        } catch (IllegalArgumentException e){
+
         }
-        return manager;
+
     }
 
     public void save() {
@@ -69,9 +74,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            if (!file.exists()) {
-                writer.append("id,type,name,status,description,epic,duration,localDateTime").append("\n");
-            }
             if (!allTasks.isEmpty()) {
                 String line = toStrings(allTasks.getLast());
                 writer.append(line).append('\n');
@@ -83,7 +85,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String toStrings(Task task) {
-        return task.toString();
+        return task.toStrings();
     }
 
     @Override
