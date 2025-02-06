@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class BaseHttpHandler {
-    final static FileBackedTaskManager manager = new FileBackedTaskManager();
+    static final FileBackedTaskManager manager = new FileBackedTaskManager();
 
     protected void sendText(HttpExchange h, String str) throws IOException {
         byte[] resp = str.getBytes(StandardCharsets.UTF_8);
