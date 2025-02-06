@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class TaskUneversal extends Task {
-    //private final int id;
+
 
     public TaskUneversal(String name, String description, Duration duration, LocalDateTime startTime) {
         this.name = name;
@@ -15,7 +15,6 @@ public class TaskUneversal extends Task {
         this.duration = Duration.ofMinutes(duration.toMinutes());
         this.startTime = startTime;
     }
-
 
 
     public void setName(TaskUneversal taskUneversal) {
@@ -34,6 +33,7 @@ public class TaskUneversal extends Task {
                 ", startTime=" + startTime +
                 '}';
     }
+
     public String toStrings() {
         return String.format("%d,%s,%s,%s,%s,%s,%s",
                 id,

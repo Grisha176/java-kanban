@@ -88,7 +88,8 @@ public class Task {
                 ", startTime=" + startTime.format(DateTimeFormatter.ofPattern(" yyyy-MM-dd HH:mm")) +
                 '}';
     }
-    public String toStrings(){
+
+    public String toStrings() {
         return "";
     }
 

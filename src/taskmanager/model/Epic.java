@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Epic extends Task {
 
@@ -48,7 +47,7 @@ public class Epic extends Task {
                 .map(SubTask::getDuration)
                 .reduce(Duration.ZERO, Duration::plus);
     }
-    
+
 
     public int getId() {
         return id;
@@ -97,6 +96,7 @@ public class Epic extends Task {
                 ", startTime=" + startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) +
                 '}';
     }
+
     public String toStrings() {
         return String.format("%d,%s,%s,%s,%s,%d,%s",
                 id,
