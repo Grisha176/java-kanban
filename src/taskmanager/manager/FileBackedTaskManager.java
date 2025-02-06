@@ -10,7 +10,6 @@ import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -25,7 +24,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] mass = line.split(",");
-                if(mass.length == 7 || mass.length == 8){
+                if (mass.length == 7 || mass.length == 8) {
                     int id = Integer.parseInt(mass[0]);
                     String type = mass[1];
                     String name = mass[2];
@@ -58,8 +57,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка: " + e.getMessage());
-        } catch (IllegalArgumentException e){
-
+        } catch (IllegalArgumentException e) {
+            System.out.println("Пересечение по времени");
         }
 
     }
