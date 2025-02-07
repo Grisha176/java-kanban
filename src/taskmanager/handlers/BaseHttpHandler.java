@@ -1,14 +1,54 @@
 package taskmanager.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import taskmanager.manager.FileBackedTaskManager;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class BaseHttpHandler {
+public abstract class BaseHttpHandler implements HttpHandler {
     static final FileBackedTaskManager manager = new FileBackedTaskManager();
+
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+        String endpoint = getEndpoint(exchange.getRequestURI().getPath(), exchange.getRequestMethod());
+
+        switch (endpoint) {
+            case "GET_BY_ID":
+                processGet(exchange);
+                break;
+            case "POST":
+                processPost(exchange);
+                break;
+            case "DELETE":
+                processDelete(exchange);
+                break;
+            case "GET_ALL_TASKS":
+                processGetTasks(exchange);
+            default:
+                writeToUser(exchange, "Данный метод не предусмотрен");
+        }
+    }
+
+
+    public String getEndpoint(String requestPath, String method) {
+        String[] mass = requestPath.split("/");
+        String getMethod = "incorrect info";
+
+        if (mass.length == 3 && method.equals("GET")) {
+            getMethod = "GET_BY_ID";
+        } else if (mass.length == 3 && method.equals("DELETE")) {
+            getMethod = "DELETE";
+        } else if (mass.length == 2 && method.equals("GET")) {
+            getMethod = "GET_ALL_TASKS";
+        } else if (mass.length == 2 && method.equals("POST")) {
+            getMethod = "POST";
+        }
+        return getMethod;
+    }
+
 
     protected void sendText(HttpExchange h, String str) throws IOException {
         byte[] resp = str.getBytes(StandardCharsets.UTF_8);
@@ -42,5 +82,33 @@ public class BaseHttpHandler {
 
     public FileBackedTaskManager getManager() {
         return manager;
+    }
+
+
+    private void writeToUser(HttpExchange exchange, String str) throws IOException {
+        exchange.sendResponseHeaders(406, 0);
+        OutputStream os = exchange.getResponseBody();
+        os.write(str.getBytes());
+        os.close();
+    }
+
+    protected void processGet(HttpExchange exchange) throws IOException {
+        sendHasException(exchange);
+
+    }
+
+    protected void processGetTasks(HttpExchange exchange) throws IOException {
+        sendHasException(exchange);
+
+    }
+
+    protected void processDelete(HttpExchange exchange) throws IOException {
+        sendHasException(exchange);
+        System.out.println("asd");
+    }
+
+    protected void processPost(HttpExchange exchange) throws IOException {
+        sendHasException(exchange);
+        System.out.println("asd");
     }
 }

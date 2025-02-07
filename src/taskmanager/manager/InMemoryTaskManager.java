@@ -13,7 +13,9 @@ public class InMemoryTaskManager implements TaskManager1 {
     private final List<Task> prioritizedTasks = new ArrayList<>();
     private static final HistoryManager historyManager = new InMemoryHistoryManager();
 
-    public HistoryManager getHistoryManager() {
+
+   @Override
+   public HistoryManager getHistoryManager() {
         return historyManager;
     }
 

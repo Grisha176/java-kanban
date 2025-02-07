@@ -1,7 +1,7 @@
 package taskmanager.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+
 
 import taskmanager.model.Epic;
 import taskmanager.model.SubTask;
@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 
-public class EpicHandler extends BaseHttpHandler implements HttpHandler {
+public class EpicHandler extends BaseHttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -27,26 +27,26 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
 
         switch (endpoint) {
             case "GET_BY_ID":
-                handleGetEpicById(exchange);
+                processGet(exchange);
                 break;
             case "GET_ALL_TASKS":
-                handleGetAllEpics(exchange);
+                processGetTasks(exchange);
                 break;
             case "DELETE":
-                handleDeleteEpic(exchange);
+                processDelete(exchange);
                 break;
             case "POST":
-                handlePOST_Epic(exchange);
+                processPost(exchange);
                 break;
             case "GET_SUBTASK":
-                handleGetEpicsSubtask(exchange);
+                processGetEpicSubtasks(exchange);
             default:
                 sendHasException(exchange);
         }
     }
 
-
-    private void handleGetEpicById(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processGet(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] mass = path.split("/");
         try {
@@ -62,7 +62,8 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleGetAllEpics(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processGetTasks(HttpExchange exchange) throws IOException {
 
         try {
             List<Epic> epics = manager.getEpics();
@@ -76,7 +77,8 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleDeleteEpic(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processDelete(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] mass = path.split("/");
         try {
@@ -88,7 +90,8 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handlePOST_Epic(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processPost(HttpExchange exchange) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()))) {
             JsonElement jsonElement = JsonParser.parseReader(reader);
             JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -110,7 +113,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleGetEpicsSubtask(HttpExchange exchange) throws IOException {
+    private void processGetEpicSubtasks(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] mass = path.split("/");
         try {
@@ -126,7 +129,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-
+    @Override
     public String getEndpoint(String requestPath, String method) {
         String[] mass = requestPath.split("/");
         String getMethod = "incorrect info";
@@ -144,5 +147,6 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
         return getMethod;
     }
+
 
 }

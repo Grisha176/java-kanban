@@ -1,7 +1,7 @@
 package taskmanager.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+
 import taskmanager.model.SubTask;
 
 import com.google.gson.JsonElement;
@@ -23,34 +23,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-public class SubTaskHandler extends BaseHttpHandler implements HttpHandler {
+public class SubTaskHandler extends BaseHttpHandler {
 
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        String endpoint = getEndpoint(exchange.getRequestURI().getPath(), exchange.getRequestMethod());
-
-        switch (endpoint) {
-            case "GET_BY_ID":
-                handleGetSubTaskById(exchange);
-                break;
-            case "GET_ALL_SUBTASK":
-                handleGetAllSubTasks(exchange);
-                break;
-            case "DELETE":
-                handleDeleteSubTask(exchange);
-                break;
-            case "POST":
-                handlePOST_SubTask(exchange);
-                break;
-            default:
-
-                sendHasException(exchange);
-        }
-    }
-
-
-    private void handleGetSubTaskById(HttpExchange exchange) throws IOException {
+    protected void processGet(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] mass = path.split("/");
         try {
@@ -66,7 +43,8 @@ public class SubTaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleGetAllSubTasks(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processGetTasks(HttpExchange exchange) throws IOException {
 
         try {
             List<SubTask> subTasks = manager.getSubtasks();
@@ -82,7 +60,8 @@ public class SubTaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleDeleteSubTask(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processDelete(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] mass = path.split("/");
         try {
@@ -95,7 +74,8 @@ public class SubTaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handlePOST_SubTask(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processPost(HttpExchange exchange) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()))) {
             JsonElement jsonElement = JsonParser.parseReader(reader);
             JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -131,21 +111,5 @@ public class SubTaskHandler extends BaseHttpHandler implements HttpHandler {
 
     }
 
-
-    public String getEndpoint(String requestPath, String method) {
-        String[] mass = requestPath.split("/");
-        String getMethod = "incorrect info";
-
-        if (mass.length == 3 && method.equals("GET")) {
-            getMethod = "GET_BY_ID";
-        } else if (mass.length == 3 && method.equals("DELETE")) {
-            getMethod = "DELETE";
-        } else if (mass.length == 2 && method.equals("GET")) {
-            getMethod = "GET_ALL_SUBTASK";
-        } else if (mass.length == 2 && method.equals("POST")) {
-            getMethod = "POST";
-        }
-        return getMethod;
-    }
 
 }

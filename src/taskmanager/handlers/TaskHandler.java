@@ -1,7 +1,6 @@
 package taskmanager.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import taskmanager.model.Task;
 
 import com.google.gson.JsonElement;
@@ -22,33 +21,10 @@ import java.time.LocalTime;
 import java.util.List;
 
 
-public class TaskHandler extends BaseHttpHandler implements HttpHandler {
-
+public class TaskHandler extends BaseHttpHandler {
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        String endpoint = getEndpoint(exchange.getRequestURI().getPath(), exchange.getRequestMethod());
-
-        switch (endpoint) {
-            case "GET_BY_ID":
-                handleGetTaskById(exchange);
-                break;
-            case "GET_ALL_TASKS":
-                handleGetAllTasks(exchange);
-                break;
-            case "DELETE":
-                handleDeleteTask(exchange);
-                break;
-            case "POST":
-                handlePOST_Task(exchange);
-                break;
-            default:
-                sendHasException(exchange);
-        }
-    }
-
-
-    private void handleGetTaskById(HttpExchange exchange) throws IOException {
+    protected void processGet(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] mass = path.split("/");
         try {
@@ -64,7 +40,8 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleGetAllTasks(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processGetTasks(HttpExchange exchange) throws IOException {
 
         try {
             List<Task> tasks = manager.getTasks();
@@ -78,7 +55,8 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleDeleteTask(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processDelete(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] mass = path.split("/");
         try {
@@ -91,7 +69,8 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handlePOST_Task(HttpExchange exchange) throws IOException {
+    @Override
+    protected void processPost(HttpExchange exchange) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()))) {
             JsonElement jsonElement = JsonParser.parseReader(reader);
             JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -121,21 +100,5 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-
-    public String getEndpoint(String requestPath, String method) {
-        String[] mass = requestPath.split("/");
-        String getMethod = "incorrect info";
-
-        if (mass.length == 3 && method.equals("GET")) {
-            getMethod = "GET_BY_ID";
-        } else if (mass.length == 3 && method.equals("DELETE")) {
-            getMethod = "DELETE";
-        } else if (mass.length == 2 && method.equals("GET")) {
-            getMethod = "GET_ALL_TASKS";
-        } else if (mass.length == 2 && method.equals("POST")) {
-            getMethod = "POST";
-        }
-        return getMethod;
-    }
 
 }

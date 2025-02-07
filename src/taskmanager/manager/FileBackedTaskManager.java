@@ -41,7 +41,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                             super.addEpic(new Epic(name, description));
                             break;
                         case "SUBTASK":
-                            int epicId = Integer.parseInt(mass[8]);
+                            int epicId = Integer.parseInt(mass[7]);
                             Duration duration1 = Duration.parse(mass[5]);
                             LocalDateTime ldt2 = LocalDateTime.parse(mass[6]);
                             Epic epic1 = this.getEpic(epicId);

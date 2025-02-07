@@ -1,22 +1,23 @@
 package taskmanager.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+
 import taskmanager.manager.HistoryManager;
 import taskmanager.model.Task;
 
 import java.io.IOException;
 import java.util.List;
 
-public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
+public class HistoryHandler extends BaseHttpHandler {
     HistoryManager manager;
 
-    HistoryHandler(HistoryManager manager) {
+    public HistoryHandler(HistoryManager manager) {
         this.manager = manager;
     }
 
+
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void processGetTasks(HttpExchange exchange) throws IOException {
         try {
             if (exchange.getRequestMethod().equals("GET")) {
                 List<Task> tasks = manager.getHistory();
@@ -27,8 +28,8 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
                 sendNotFound(exchange);
 
             }
-
         } catch (Exception e) {
+            e.printStackTrace();
             sendHasException(exchange);
         }
     }

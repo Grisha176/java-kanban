@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface TaskManager1 {
 
+
+    HistoryManager getHistoryManager();
+
     List<SubTask> getEpicsSubtask(int id);
 
     HistoryManager getHistory();

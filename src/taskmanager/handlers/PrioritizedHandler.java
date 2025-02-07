@@ -1,15 +1,15 @@
 package taskmanager.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+
 import taskmanager.model.Task;
 
 import java.io.IOException;
 import java.util.List;
 
-public class PrioritizedHandler extends BaseHttpHandler implements HttpHandler {
+public class PrioritizedHandler extends BaseHttpHandler {
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void processGetTasks(HttpExchange exchange) throws IOException {
         try {
             if (exchange.getRequestMethod().equals("GET")) {
                 List<Task> tasks = manager.getPrioritizedTasks();
@@ -20,6 +20,7 @@ public class PrioritizedHandler extends BaseHttpHandler implements HttpHandler {
                 sendNotFound(exchange);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             sendHasException(exchange);
         }
     }
