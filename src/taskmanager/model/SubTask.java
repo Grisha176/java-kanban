@@ -2,11 +2,12 @@ package taskmanager.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class SubTask extends Task {
 
-    int idEpic;
+    private int idEpic;
 
 
     public SubTask(String name, String description, Duration duration, LocalDateTime startTime, Integer idEpic) {
@@ -14,7 +15,7 @@ public class SubTask extends Task {
         this.description = description;
         this.progress = Progress.NEW;
         this.id = Task.count;
-        Task.count++;
+        Task.count += 1;
         this.startTime = startTime;
         this.duration = duration;
         this.idEpic = idEpic;
@@ -73,9 +74,25 @@ public class SubTask extends Task {
     @Override
     public String toString() {
         return "SubTask{" +
-                "name='" + name + '\'' +
+                "idEpic=" + idEpic +
+                ", name='" + name + '\'' +
+                ", id=" + id +
                 ", description='" + description + '\'' +
                 ", progress=" + progress +
+                ", durationInMinutes= " + duration.toMinutes() +
+                ", startTime=" + startTime.format(DateTimeFormatter.ofPattern("  yyyy-MM-ddHH:mm")) +
                 '}';
+    }
+
+    public String toStrings() {
+        return String.format("%d,%s,%s,%s,%s,%s,%s,%d",
+                id,
+                "SUBTASK",
+                name,
+                progress,
+                description,
+                duration.toMinutes(),
+                startTime,
+                idEpic);
     }
 }

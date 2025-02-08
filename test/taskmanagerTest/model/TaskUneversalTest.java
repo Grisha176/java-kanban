@@ -1,4 +1,4 @@
-
+package taskmanagerTest.model;
 
 import taskmanager.model.TaskUneversal;
 import org.junit.jupiter.api.Test;

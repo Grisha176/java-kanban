@@ -1,3 +1,5 @@
+package taskmanagerTest.model;
+
 import taskmanager.model.Epic;
 import taskmanager.manager.InMemoryTaskManager;
 import taskmanager.model.Progress;

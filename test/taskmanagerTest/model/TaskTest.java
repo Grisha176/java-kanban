@@ -1,4 +1,4 @@
-package test;
+package taskmanagerTest.model;
 
 import taskmanager.manager.InMemoryTaskManager;
 import taskmanager.model.Task;

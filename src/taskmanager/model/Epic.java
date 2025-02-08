@@ -4,6 +4,7 @@ import taskmanager.manager.InMemoryTaskManager;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -15,7 +16,7 @@ public class Epic extends Task {
         this.name = name;
         this.description = description;
         this.id = Task.count;
-        Task.count++;
+        Task.count += 1;
         this.progress = Progress.NEW;
         this.startTime = getStartTime();
         this.duration = getDuration();
@@ -24,30 +25,29 @@ public class Epic extends Task {
 
     @Override
     public LocalDateTime getEndTime() {
+        LocalDateTime lcd = getStartTime().plus(duration);
         return manager.getSubtasks().stream()
                 .map(SubTask::getEndTime)
                 .max(LocalDateTime::compareTo)
-                .orElse(LocalDateTime.now());
+                .orElse(lcd);
     }
 
     @Override
     public LocalDateTime getStartTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime lcd = LocalDateTime.parse(dtf.format(LocalDateTime.now()));
         return manager.getSubtasks().stream()
                 .map(SubTask::getStartTime)
                 .min(LocalDateTime::compareTo)
-                .orElse(LocalDateTime.now());
+                .orElse(lcd);
     }
 
-    private Duration getDuration() {
+    public Duration getDuration() {
         return manager.getSubtasks().stream()
                 .map(SubTask::getDuration)
                 .reduce(Duration.ZERO, Duration::plus);
     }
 
-   /* @Override
-    public LocalDateTime getEndTime() {
-        return manager.getSubTaskSortByTime().get(manager.getSubTaskSortByTime().size() - 1);
-    }*/
 
     public int getId() {
         return id;
@@ -74,18 +74,9 @@ public class Epic extends Task {
         if (id != this.id && !subtaskIds.contains(id)) {
             subtaskIds.add(id);
         } else {
-            System.out.println("Нельзя добавить эпик в вмиде подзадачи");
+            System.out.println("Нельзя добавить эпик в виде подзадачи");
         }
 
-    }
-
-    @Override
-    public String toString() {
-        return "Epic{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", progress=" + progress +
-                '}';
     }
 
     public void removeSubTaskId(int id) {
@@ -93,5 +84,29 @@ public class Epic extends Task {
             subtaskIds.remove((Integer) id);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", description='" + description + '\'' +
+                ", progress=" + progress +
+                ", durationInMinutes= " + duration.toMinutes() +
+                ", startTime=" + startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) +
+                '}';
+    }
+
+    public String toStrings() {
+        return String.format("%d,%s,%s,%s,%s,%d,%s",
+                id,
+                "EPIC",
+                name,
+                progress,
+                description,
+                duration.toMinutes(),
+                startTime);
+    }
+
 }
 
