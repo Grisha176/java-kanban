@@ -29,6 +29,7 @@ public class HttpTaskServer extends BaseHttpHandler {
         manager.loadFile(file);
         httpTaskServer.start();// запускаем сервер
         System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
+        httpTaskServer.stop();
 
     }
 
