@@ -73,8 +73,7 @@ public class EpicHandler extends BaseHttpHandler {
             List<Epic> epics = manager.getEpics();
             if (!epics.isEmpty()) {
                 String epicStr = epics.toString();
-                String epGson = gson.toJson(epicStr);
-                sendText(exchange, epGson);
+                sendText(exchange, epicStr);
             }
             sendNotFound(exchange);
         } catch (Exception e) {
