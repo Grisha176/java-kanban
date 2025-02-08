@@ -21,6 +21,10 @@ import java.util.List;
 
 public class EpicHandler extends BaseHttpHandler {
 
+    Gson gson = new GsonBuilder()
+                .setPrettyPrinting()  // Включаем красивый вывод
+                .create();
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String endpoint = getEndpoint(exchange.getRequestURI().getPath(), exchange.getRequestMethod());
@@ -53,7 +57,8 @@ public class EpicHandler extends BaseHttpHandler {
             int id = Integer.parseInt(mass[2]);
             Epic epic = manager.getEpic(id);
             if (epic != null) {
-                sendText(exchange, epic.toString());
+                String epicStr = epic.toString();
+                sendText(exchange, epicStr);
                 return;
             }
             sendNotFound(exchange);
@@ -69,7 +74,8 @@ public class EpicHandler extends BaseHttpHandler {
             List<Epic> epics = manager.getEpics();
             if (!epics.isEmpty()) {
                 String epicStr = epics.toString();
-                sendText(exchange, epicStr);
+                String epGson = gson.toJson(epicStr);
+                sendText(exchange, epGson);
             }
             sendNotFound(exchange);
         } catch (Exception e) {

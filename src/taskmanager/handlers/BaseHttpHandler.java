@@ -3,14 +3,15 @@ package taskmanager.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import taskmanager.manager.FileBackedTaskManager;
+import taskmanager.manager.TaskManager1;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public abstract class BaseHttpHandler implements HttpHandler {
-    static final FileBackedTaskManager manager = new FileBackedTaskManager();
-
+    static final TaskManager1 manager = new FileBackedTaskManager();
+    FileBackedTaskManager fileManager = (FileBackedTaskManager) manager;
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String endpoint = getEndpoint(exchange.getRequestURI().getPath(), exchange.getRequestMethod());
@@ -81,7 +82,7 @@ public abstract class BaseHttpHandler implements HttpHandler {
     }
 
     public FileBackedTaskManager getManager() {
-        return manager;
+        return fileManager;
     }
 
 
@@ -94,7 +95,6 @@ public abstract class BaseHttpHandler implements HttpHandler {
 
     protected void processGet(HttpExchange exchange) throws IOException {
         sendHasException(exchange);
-
     }
 
     protected void processGetTasks(HttpExchange exchange) throws IOException {
@@ -104,11 +104,9 @@ public abstract class BaseHttpHandler implements HttpHandler {
 
     protected void processDelete(HttpExchange exchange) throws IOException {
         sendHasException(exchange);
-        System.out.println("asd");
     }
 
     protected void processPost(HttpExchange exchange) throws IOException {
         sendHasException(exchange);
-        System.out.println("asd");
     }
 }

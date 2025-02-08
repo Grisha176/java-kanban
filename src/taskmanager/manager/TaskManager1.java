@@ -5,10 +5,15 @@ import taskmanager.model.SubTask;
 import taskmanager.model.Task;
 import taskmanager.model.TaskUneversal;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager1 {
+
+    List<Task> getPrioritizedTasks();
+
+    void loadFile(File file);
 
 
     HistoryManager getHistoryManager();

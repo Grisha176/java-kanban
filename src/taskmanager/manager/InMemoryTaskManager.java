@@ -2,6 +2,7 @@ package taskmanager.manager;
 
 import taskmanager.model.*;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,12 @@ public class InMemoryTaskManager implements TaskManager1 {
                 .toList();
 
     }
+
+    @Override
+    public void loadFile(File file) {
+
+    }
+
 
     public boolean checkTimeOverlaps(Task existing, Task newTask) {
         return existing.getStartTime().isBefore(newTask.getEndTime())
