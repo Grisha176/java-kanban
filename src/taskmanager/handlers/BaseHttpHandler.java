@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 public abstract class BaseHttpHandler implements HttpHandler {
     static final TaskManager1 manager = new FileBackedTaskManager();
     FileBackedTaskManager fileManager = (FileBackedTaskManager) manager;
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String endpoint = getEndpoint(exchange.getRequestURI().getPath(), exchange.getRequestMethod());

@@ -15,15 +15,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.io.InputStreamReader;
-
 import java.util.List;
 
 
 public class EpicHandler extends BaseHttpHandler {
 
     Gson gson = new GsonBuilder()
-                .setPrettyPrinting()  // Включаем красивый вывод
-                .create();
+            .setPrettyPrinting()  // Включаем красивый вывод
+            .create();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
